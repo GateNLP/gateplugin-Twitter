@@ -12,7 +12,8 @@
 		<relativePath>../../Plugin_Base/pom.xml</relativePath>
 	</parent>
 
-	<name>Twitter</name>	
+	<name>Twitter</name>
+	<description>A suite of tools designed for processing Tweets</description>
 	
 	<!-- this is the description of this plugin -->
 	<groupId>uk.ac.gate.plugins</groupId>
