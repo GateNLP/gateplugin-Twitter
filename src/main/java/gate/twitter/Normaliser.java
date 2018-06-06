@@ -51,7 +51,7 @@ public class Normaliser extends AbstractLanguageAnalyser {
     orthmappings = new HashMap<String, String>();
 
     // initialize spell checker
-    try(InputStream in = openPossiblyGzip(dictURL);
+    try(InputStream in = openPossiblyGzip(dictURL.toURL());
         InputStreamReader inReader = new InputStreamReader(in, dictEncoding);
         BufferedReader dictReader = new BufferedReader(inReader)) {
       checker.initialize(dictReader);
@@ -60,7 +60,7 @@ public class Normaliser extends AbstractLanguageAnalyser {
     }
 
     // read the wordlist
-    try(InputStream in = openPossiblyGzip(dictURL);
+    try(InputStream in = openPossiblyGzip(dictURL.toURL());
         InputStreamReader inReader = new InputStreamReader(in, dictEncoding);
         BufferedReader dictReader = new BufferedReader(inReader)) {
       String entry;
@@ -74,7 +74,7 @@ public class Normaliser extends AbstractLanguageAnalyser {
 
     // populate the common norm. lookup list
     try {
-      readOrthMappings(orthURL);
+      readOrthMappings(orthURL.toURL());
     } catch(IOException e) {
       throw new ResourceInstantiationException("Error loading orth mappings", e);
     }
@@ -363,11 +363,11 @@ public class Normaliser extends AbstractLanguageAnalyser {
   }
 
   @CreoleParameter(comment = "Path to JaSpell dictionary", defaultValue = "resources/normaliser/english.jaspell")
-  public void setDictURL(URL dictURL) {
+  public void setDictURL(ResourceReference dictURL) {
     this.dictURL = dictURL;
   }
 
-  public URL getDictURL() {
+  public ResourceReference getDictURL() {
     return this.dictURL;
   }
 
@@ -384,11 +384,11 @@ public class Normaliser extends AbstractLanguageAnalyser {
       + "This can either be a single two-column CSV file where the first column is the term to be mapped and the second "
       + "column is the target, or a single column file listing relative paths to other lists (which is useful if you want "
       + "to include more than one list of terms)", defaultValue = "resources/normaliser/orth.en.csv")
-  public void setOrthURL(URL orthURL) {
+  public void setOrthURL(ResourceReference orthURL) {
     this.orthURL = orthURL;
   }
 
-  public URL getOrthURL() {
+  public ResourceReference getOrthURL() {
     return this.orthURL;
   }
 
@@ -430,9 +430,9 @@ public class Normaliser extends AbstractLanguageAnalyser {
 
   private String origTextFeature;
 
-  private URL dictURL;
+  private ResourceReference dictURL;
 
-  private URL orthURL;
+  private ResourceReference orthURL;
 
   private String dictEncoding;
 

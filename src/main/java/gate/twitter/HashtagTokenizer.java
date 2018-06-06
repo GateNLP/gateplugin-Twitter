@@ -19,6 +19,13 @@ import static org.apache.commons.lang.StringUtils.isAllLowerCase;
 import static org.apache.commons.lang.StringUtils.isAllUpperCase;
 import static org.apache.commons.lang.StringUtils.isAlpha;
 import static org.apache.commons.lang.StringUtils.isNumeric;
+
+import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
 import gate.Annotation;
 import gate.AnnotationSet;
 import gate.Factory;
@@ -31,18 +38,12 @@ import gate.creole.AbstractLanguageAnalyser;
 import gate.creole.ExecutionException;
 import gate.creole.ExecutionInterruptedException;
 import gate.creole.ResourceInstantiationException;
+import gate.creole.ResourceReference;
 import gate.creole.metadata.CreoleParameter;
 import gate.creole.metadata.CreoleResource;
 import gate.creole.metadata.Optional;
 import gate.creole.metadata.RunTime;
 import gate.util.InvalidOffsetException;
-
-import java.net.URL;
-import java.text.NumberFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
 
 @CreoleResource(name = "Hashtag Tokenizer", icon = "HashtagTokenizer",
     comment = "Tokenizes Multi-Word Hashtags",
@@ -67,7 +68,7 @@ public class HashtagTokenizer extends AbstractLanguageAnalyser {
   private LanguageAnalyser gaz;
 
   // the URL from which the gazetteer is loaded
-  private URL gazURL;
+  private ResourceReference gazURL;
 
   // the names of the input and output annotation sets
   private String inputASName, outputASName;
@@ -86,12 +87,12 @@ public class HashtagTokenizer extends AbstractLanguageAnalyser {
     this.debug = debug;
   }
 
-  public URL getGazetteerURL() {
+  public ResourceReference getGazetteerURL() {
     return gazURL;
   }
 
   @CreoleParameter(defaultValue = "resources/hashtag/gazetteer/lists.def")
-  public void setGazetteerURL(URL gazURL) {
+  public void setGazetteerURL(ResourceReference gazURL) {
     this.gazURL = gazURL;
   }
 

@@ -14,20 +14,18 @@
 
 package gate.twitter.pos;
 
-import java.net.URL;
-
 import gate.Corpus;
 import gate.Document;
 import gate.Factory;
 import gate.Factory.DuplicationContext;
 import gate.FeatureMap;
 import gate.Gate;
-import gate.LanguageAnalyser;
 import gate.Resource;
 import gate.creole.AbstractLanguageAnalyser;
 import gate.creole.CustomDuplication;
 import gate.creole.ExecutionException;
 import gate.creole.ResourceInstantiationException;
+import gate.creole.ResourceReference;
 import gate.creole.metadata.CreoleParameter;
 import gate.creole.metadata.CreoleResource;
 import gate.creole.metadata.Optional;
@@ -44,6 +42,8 @@ import gate.event.StatusListener;
 @CreoleResource(name = "Twitter POS Tagger (deprecated)", comment = "Transitional compatibility PR for Twitter POS tagger - new applications should use the Stanford tagger directly", isPrivate = true)
 public class POSTaggerEN extends AbstractLanguageAnalyser implements
                                                          CustomDuplication {
+
+  private static final long serialVersionUID = 5696321433374664840L;
 
   private FeatureMap initParams;
 
@@ -120,12 +120,12 @@ public class POSTaggerEN extends AbstractLanguageAnalyser implements
   // init parameters
 
   @CreoleParameter(comment = "Path to the tagger's model file", defaultValue = "resources/pos/gate-EN-twitter.model")
-  public void setModelFile(URL modelFile) {
+  public void setModelFile(ResourceReference modelFile) {
     getInitParams().put("modelFile", modelFile);
   }
 
-  public URL getModelFile() {
-    return (URL)getInitParams().get("modelFile");
+  public ResourceReference getModelFile() {
+    return (ResourceReference)getInitParams().get("modelFile");
   }
 
   // runtime parameters

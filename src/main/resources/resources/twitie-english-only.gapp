@@ -4,32 +4,32 @@
       <gate.creole.Plugin-Maven>
         <group>uk.ac.gate.plugins</group>
         <artifact>annie</artifact>
-        <version>8.5-SNAPSHOT</version>
+        <version>8.6-SNAPSHOT</version>
       </gate.creole.Plugin-Maven>
       <gate.creole.Plugin-Maven>
         <group>uk.ac.gate.plugins</group>
         <artifact>format-twitter</artifact>
-        <version>8.5-SNAPSHOT</version>
+        <version>8.6-SNAPSHOT</version>
       </gate.creole.Plugin-Maven>
       <gate.creole.Plugin-Maven>
         <group>uk.ac.gate.plugins</group>
         <artifact>twitter</artifact>
-        <version>8.5-SNAPSHOT</version>
+        <version>8.6-SNAPSHOT</version>
       </gate.creole.Plugin-Maven>
       <gate.creole.Plugin-Maven>
         <group>uk.ac.gate.plugins</group>
         <artifact>stanford-corenlp</artifact>
-        <version>8.5-SNAPSHOT</version>
+        <version>8.6-SNAPSHOT</version>
       </gate.creole.Plugin-Maven>
       <gate.creole.Plugin-Maven>
         <group>uk.ac.gate.plugins</group>
         <artifact>tools</artifact>
-        <version>8.5-SNAPSHOT</version>
+        <version>8.6-SNAPSHOT</version>
       </gate.creole.Plugin-Maven>
       <gate.creole.Plugin-Maven>
         <group>uk.ac.gate.plugins</group>
         <artifact>language-identification</artifact>
-        <version>8.5-SNAPSHOT</version>
+        <version>8.6-SNAPSHOT</version>
       </gate.creole.Plugin-Maven>      
     </localList>
     <collectionType>java.util.ArrayList</collectionType>
@@ -616,7 +616,7 @@
                         <entry>
                           <string>listsURL</string>
                           <gate.util.persistence.PersistenceManager-RRPersistence>
-                            <uriString>creole://uk.ac.gate.plugins;annie;8.5-SNAPSHOT/resources/gazetteer/lists.def</uriString>
+                            <uriString>creole://uk.ac.gate.plugins;annie;8.6-SNAPSHOT/resources/gazetteer/lists.def</uriString>
                           </gate.util.persistence.PersistenceManager-RRPersistence>
                         </entry>
                       </localMap>
@@ -677,7 +677,7 @@
                 <entry>
                   <string>grammarURL</string>
                   <gate.util.persistence.PersistenceManager-RRPersistence>
-                    <uriString>creole://uk.ac.gate.plugins;annie;8.5-SNAPSHOT/resources/NE/main-twitter.jape</uriString>
+                    <uriString>creole://uk.ac.gate.plugins;annie;8.6-SNAPSHOT/resources/NE/main-twitter.jape</uriString>
                   </gate.util.persistence.PersistenceManager-RRPersistence>
                 </entry>
                 <entry>
