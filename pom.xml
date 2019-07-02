@@ -18,7 +18,7 @@
 	<!-- this is the description of this plugin -->
 	<groupId>uk.ac.gate.plugins</groupId>
 	<artifactId>twitter</artifactId>
-	<version>8.6</version>
+	<version>8.7-SNAPSHOT</version>
 
 	<licenses>
 		<license>
