@@ -13,10 +13,6 @@ Macro: URL_START
 )
 
 
-// TODO: 
-// flag RT/MT/via @/by @ & via specially? (probably better to handle later)
-
-
 // Syntax of usernames
 // http://sentiment.christopherpotts.net/tokenizing.html#twitter
 // @+[\w_]+
@@ -87,44 +83,6 @@ Rule: Recombine
    }
 }
 
-/*
-//Replaced by RecombineEmoticon as this doesn't work very well because
-//  a) it misses emoticons that start with a non-punctuation character
-//  b) it combines punctuation that isn't an emoticon (i.e. ...) 
-Rule: RecombineSmiley
-(
-  ({Token.kind == "punctuation"})+
-  ({Token.string =~"[DdPp]"})?
-):match
--->
-:match {
-   long start = matchAnnots.firstNode().getOffset();
-   long end = matchAnnots.lastNode().getOffset();
-
-   FeatureMap tok = Factory.newFeatureMap();
-   tok.put("rule", "RecombineSmiley");
-   tok.put("kind", "punctuation");
-   tok.put("category", "UH");
-   tok.put("length", (int) end - start);
-   String string = gate.Utils.cleanStringFor(doc, matchAnnots);
-   tok.put("string", string);
-   tok.put("orth", "mixed");
-
-   // remove prior annotations
-   AnnotationSet tokens = gate.Utils.getContainedAnnotations(inputAS, matchAnnots, "Token");
-   tok.put("replaced", tokens.size());
-   inputAS.removeAll(tokens);
-
-   // add spanning annotation
-   try {
-    outputAS.add(start, end, "Token", tok);
-   }
-   catch (InvalidOffsetException e) {
-    e.printStackTrace();
-   }
-}
-*/
-
 Rule: NotRecombineEmoticon
 Priority: 100
 /* Do not recombine emoticon if it's preceded directly by a number, as it's probably not an emoticon, e.g. 8:30 */
@@ -179,7 +137,7 @@ Priority: 100
 
 Rule: UserID
 ( ({Token.string == "@"})
-  ({Token.kind=="word"} | {Token.kind=="number"} | {Token.string=="_"})[1,5]
+  (({Token.kind=="word"} | {Token.kind=="number"} | {Token.string=="_"})[1,5]):handle
 ): match
 -->
 :match {
@@ -187,49 +145,39 @@ Rule: UserID
    long start = matchAnnots.firstNode().getOffset();
    long end = matchAnnots.lastNode().getOffset();
 
-   // build new userid annotation
+   AnnotationSet handleAnnots = bindings.get("handle");
+
+   // build new UserID annotation
    FeatureMap userid = Factory.newFeatureMap();
    userid.put("rule", "UserID");
    userid.put("kind", "UserID");
-   userid.put("length", (int) end - (start+1));
-   String string = gate.Utils.cleanStringFor(doc, matchAnnots);
-   userid.put("string", string);
-   userid.put("user", string.substring(1)); // skip the leading "@" from the string
+   userid.put("length", (int)(handleAnnots.lastNode().getOffset() - handleAnnots.firstNode().getOffset()));
+   String handle = gate.Utils.cleanStringFor(doc, handleAnnots);
+   userid.put("string", handle);
+   userid.put("user", handle);
+   userid.put("replaced", handleAnnots.size());
+   gate.Utils.addAnn(outputAS,handleAnnots,"UserID",userid);
 
-   // add spanning userid annotation
-   try {
-    outputAS.add(start+1, end, "UserID", userid);
-    outputAS.add(start, end, "UserMention", userid);
-       }
-   catch (InvalidOffsetException e) {
-    e.printStackTrace();
-   }
+   // biuild new UserMention annotation
+   FeatureMap userMention = Factory.newFeatureMap();
+   userMention.put("rule", "UserID");
+   userMention.put("kind", "UserMention");
+   userMention.put("length", (int)(matchAnnots.lastNode().getOffset() - matchAnnots.firstNode().getOffset()));
+   userMention.put("string", gate.Utils.cleanStringFor(doc, matchAnnots));
+   userMention.put("user", handle);
+   userMention.put("replaced", handleAnnots.size());
+   gate.Utils.addAnn(outputAS,matchAnnots,"UserMention",userMention);
 
-   // remove first elem from matchAnnots so the extras can be removed, and set up the userid start offset
-   Annotation first = matchAnnots.get(start).iterator().next();
-   matchAnnots.remove(first);
-   
-   // replace username (excl. @) with one Token annotation
-   AnnotationSet tokens = gate.Utils.getContainedAnnotations(inputAS, matchAnnots, "Token");
-   userid.put("replaced", tokens.size());
-   inputAS.removeAll(tokens);
-   
    // add new token for user id string
    FeatureMap newtok = Factory.newFeatureMap();
    newtok.put("rule", "UserID");
    newtok.put("category", "USR");
    newtok.put("kind", "word");
-   newtok.put("length", (int) end - start);
-   string = gate.Utils.cleanStringFor(doc, matchAnnots);
-   newtok.put("string", string.substring(1));
+   newtok.put("length", (int)(matchAnnots.lastNode().getOffset() - matchAnnots.firstNode().getOffset()));
+   newtok.put("string", gate.Utils.cleanStringFor(doc, matchAnnots));
+   gate.Utils.addAnn(outputAS,matchAnnots,"Token",newtok);
 
-   try {
-    outputAS.add(start, end, "Token", newtok);
-   }
-   catch (InvalidOffsetException e) {
-    e.printStackTrace();
-   }   
-
+   inputAS.removeAll(matchAnnots);
 }
 
 
