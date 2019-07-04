@@ -1,7 +1,83 @@
 Phase: TwitterTokens
-Input: Token SpaceToken Lookup
+Input: Token SpaceToken Lookup URL Hashtag UserMention
 Options: control = appelt
 
+
+// Make use of existing Hashtag annotations
+Rule: JSONHashtag
+Priority:1000
+(
+  {Hashtag}
+):match
+-->
+:match {
+	Annotation hashtag = matchAnnots.iterator().next();
+	FeatureMap features = hashtag.getFeatures();
+
+	features.put("string", gate.Utils.cleanStringFor(doc, matchAnnots));
+	features.put("length", (int)(matchAnnots.lastNode().getOffset() - matchAnnots.firstNode().getOffset()));
+
+}
+
+// Make use of existing @mentions
+Rule: JSONUserMention
+Priority:1000
+(
+  {UserMention}
+):match
+-->
+:match {
+   Annotation userMention = matchAnnots.iterator().next();
+   AnnotationSet tokens = gate.Utils.getContainedAnnotations(inputAS, matchAnnots, "Token");
+
+   FeatureMap mentionFeatures = userMention.getFeatures();
+   mentionFeatures.put("replaced",tokens.size());
+   mentionFeatures.put("length", (int)(matchAnnots.lastNode().getOffset() - matchAnnots.firstNode().getOffset()));
+   mentionFeatures.put("string", gate.Utils.cleanStringFor(doc, matchAnnots));
+   mentionFeatures.put("user",mentionFeatures.remove("screen_name"));
+
+   FeatureMap idFeatures = Factory.newFeatureMap();
+   idFeatures.putAll(mentionFeatures);
+   idFeatures.put("length", (int)(matchAnnots.lastNode().getOffset() - matchAnnots.firstNode().getOffset())-1);
+   idFeatures.put("string", gate.Utils.cleanStringFor(doc, matchAnnots).substring(1));
+   gate.Utils.addAnn(outputAS,matchAnnots.firstNode().getOffset()+1,matchAnnots.lastNode().getOffset(),"UserID",idFeatures);
+
+   // add new token for user id string
+   FeatureMap newtok = Factory.newFeatureMap();
+   newtok.put("rule", "JSONUserMention");
+   newtok.put("category", "USR");
+   newtok.put("kind", "word");
+   newtok.put("length", (int)(matchAnnots.lastNode().getOffset() - matchAnnots.firstNode().getOffset()));
+   newtok.put("string", gate.Utils.cleanStringFor(doc, matchAnnots));
+   gate.Utils.addAnn(outputAS,matchAnnots,"Token",newtok);
+
+   inputAS.removeAll(tokens);
+}
+
+// Make use of existing URLs
+Rule: JsonURLandMedia
+Priority:1000
+(
+  {URL}
+):match
+-->
+:match {
+   FeatureMap newf = Factory.newFeatureMap();
+   newf.put("rule", "JsonURLandMedia");
+   newf.put("category", "URL");
+   newf.put("kind", "URL");
+   newf.put("length", (int)(matchAnnots.lastNode().getOffset()-matchAnnots.firstNode().getOffset()));
+   newf.put("string", gate.Utils.cleanStringFor(doc, matchAnnots));
+
+   AnnotationSet tokens = gate.Utils.getContainedAnnotations(inputAS, matchAnnots, "Token");
+
+   gate.Utils.addAnn(outputAS,matchAnnots,"Token",newf);
+
+   inputAS.removeAll(tokens);
+}
+
+
+// now find everything else!
 
 Macro: URL_START
 (
@@ -155,17 +231,17 @@ Rule: UserID
    String handle = gate.Utils.cleanStringFor(doc, handleAnnots);
    userid.put("string", handle);
    userid.put("user", handle);
-   userid.put("replaced", handleAnnots.size());
+   userid.put("replaced", matchAnnots.size());
    gate.Utils.addAnn(outputAS,handleAnnots,"UserID",userid);
 
-   // biuild new UserMention annotation
+   // build new UserMention annotation
    FeatureMap userMention = Factory.newFeatureMap();
    userMention.put("rule", "UserID");
    userMention.put("kind", "UserMention");
    userMention.put("length", (int)(matchAnnots.lastNode().getOffset() - matchAnnots.firstNode().getOffset()));
    userMention.put("string", gate.Utils.cleanStringFor(doc, matchAnnots));
    userMention.put("user", handle);
-   userMention.put("replaced", handleAnnots.size());
+   userMention.put("replaced", matchAnnots.size());
    gate.Utils.addAnn(outputAS,matchAnnots,"UserMention",userMention);
 
    // add new token for user id string
@@ -194,7 +270,7 @@ Rule: URL
 
    FeatureMap newf = Factory.newFeatureMap();
    newf.put("rule", "URL");
-   newf.put("temp_category", "NN");
+   newf.put("category", "URL");
    newf.put("kind", "URL");
    newf.put("length", (int) end - start);
    String string = gate.Utils.cleanStringFor(doc, matchAnnots);
