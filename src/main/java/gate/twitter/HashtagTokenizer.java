@@ -76,8 +76,20 @@ public class HashtagTokenizer extends AbstractLanguageAnalyser {
   // a debug flag
   private Boolean debug = Boolean.FALSE;
 
+  private Long timelimit, failTime;
+
   public Boolean getDebug() {
     return debug;
+  }
+
+  public Long getTimelimit() {
+    return timelimit;
+  }
+
+  @CreoleParameter(defaultValue = "5", comment = "maximum number of seconds to spend processing each hashtag, set to less than 0 for no limit")
+  @RunTime
+  public void setTimelimit(Long timelimit) {
+    this.timelimit = timelimit;
   }
 
   @CreoleParameter(defaultValue = "false")
@@ -171,8 +183,11 @@ public class HashtagTokenizer extends AbstractLanguageAnalyser {
       // get all the hashtags
       AnnotationSet hashtags = inputAS.get("Hashtag");
 
-      for(Annotation hashtag : inputAS.get("Hashtag")) {
+      for(Annotation hashtag : hashtags) {
         // for each hashtag in the document...
+
+        // calculate when we should stop this hashtag
+        failTime = timelimit > 0 ? System.currentTimeMillis()+(timelimit*1000) : Long.MAX_VALUE;
 
         AnnotationSet contained = inputAS.getContained(hashtag.getStartNode().getOffset(), hashtag.getEndNode().getOffset());
         
@@ -423,10 +438,15 @@ public class HashtagTokenizer extends AbstractLanguageAnalyser {
     throws InvalidOffsetException, ExecutionInterruptedException {
 
     if (isInterrupted()) {
-        throw new ExecutionInterruptedException(
-            "The execution of the hashtag tokenizer has been abruptly interrupted!");
+      throw new ExecutionInterruptedException(
+          "The execution of the hashtag tokenizer has been abruptly interrupted!");
     }
-	  
+
+    if (System.currentTimeMillis() > failTime) {
+      // if we've exceeded the timelimit then stop looking along this branch
+      return null;
+    }
+
     if("mixedCaps"
       .equals(getTokenType(stringFor(lookups.getDocument(), token))[1]))
       return null;
