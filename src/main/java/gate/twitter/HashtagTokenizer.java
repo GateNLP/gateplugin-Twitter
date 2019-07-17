@@ -416,11 +416,17 @@ public class HashtagTokenizer extends AbstractLanguageAnalyser {
   /**
    * Depth first search through a set of annotations to find a contiguous set
    * for a given character range.
+ * @throws ExecutionInterruptedException 
    **/
   private List<List<Annotation>> search(AnnotationSet lookups, Long endOffset,
                                         Annotation token)
-    throws InvalidOffsetException {
+    throws InvalidOffsetException, ExecutionInterruptedException {
 
+    if (isInterrupted()) {
+        throw new ExecutionInterruptedException(
+            "The execution of the hashtag tokenizer has been abruptly interrupted!");
+    }
+	  
     if("mixedCaps"
       .equals(getTokenType(stringFor(lookups.getDocument(), token))[1]))
       return null;
