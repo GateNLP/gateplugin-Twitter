@@ -3,7 +3,7 @@
 
 
 Phase:postprocess
-Input: Token SpaceToken
+Input: Token SpaceToken Hashtag URL UserMention
 Options: control = appelt
 
 //adjusts the tokeniser output
@@ -91,6 +91,16 @@ Rule: ordinals
   
 }
 
+Rule: Skipping
+Priority:1000
+(
+	({URL}|{Hashtag}|{UserMention})
+	({Token.string=="'"}{Token.string==~"[Tt]"})
+)
+-->
+{
+	//don't mangle tokens inside URLs, Hashtags or UserMentions
+}
 
 //?n't
 Rule: VBneg
@@ -179,7 +189,7 @@ Rule: VBnegUppercase
 
 /* "cannot" (AF, 2011-01) */
 Rule: Cannot
-({Token.string ==~ "[Cc][Aa][Nn][Nn][Oo][Tt]"}):cannot
+({Token.string ==~ "(?i)cannot"}):cannot
 -->
 :cannot  {
   Annotation cannot = cannotAnnots.iterator().next();
