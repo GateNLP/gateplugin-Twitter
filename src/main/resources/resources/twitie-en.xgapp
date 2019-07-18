@@ -98,7 +98,7 @@
                       <string>hashtags=Hashtag</string>
                       <string>user_mentions=UserMention</string>
                     </localList>
-                    <collectionType>java.util.Arrays$ArrayList</collectionType>
+                    <collectionType>java.util.ArrayList</collectionType>
                   </gate.util.persistence.CollectionPersistence>
                 </entry>
               </localMap>
@@ -210,18 +210,11 @@
               <mapType>gate.util.SimpleFeatureMapImpl</mapType>
               <localMap/>
             </runtimeParams>
-            <resourceType>gate.twitter.HashtagTokenizer</resourceType>
-            <resourceName>Hashtag Tokenizer</resourceName>
+            <resourceType>gate.creole.gazetteer.DefaultGazetteer</resourceType>
+            <resourceName>ANNIE Gazetteer</resourceName>
             <initParams class="gate.util.persistence.MapPersistence">
               <mapType>gate.util.SimpleFeatureMapImpl</mapType>
-              <localMap>
-                <entry>
-                  <string>gazetteerURL</string>
-                  <gate.util.persistence.PersistenceManager-RRPersistence>
-                    <uriString>$relpath$hashtag/gazetteer/lists.def</uriString>
-                  </gate.util.persistence.PersistenceManager-RRPersistence>
-                </entry>
-              </localMap>
+              <localMap/>
             </initParams>
             <features class="gate.util.persistence.MapPersistence">
               <mapType>gate.util.SimpleFeatureMapImpl</mapType>
@@ -238,11 +231,18 @@
               <mapType>gate.util.SimpleFeatureMapImpl</mapType>
               <localMap/>
             </runtimeParams>
-            <resourceType>gate.creole.gazetteer.DefaultGazetteer</resourceType>
-            <resourceName>ANNIE Gazetteer</resourceName>
+            <resourceType>gate.twitter.HashtagTokenizer</resourceType>
+            <resourceName>Hashtag Tokenizer</resourceName>
             <initParams class="gate.util.persistence.MapPersistence">
               <mapType>gate.util.SimpleFeatureMapImpl</mapType>
-              <localMap/>
+              <localMap>
+                <entry>
+                  <string>gazetteerURL</string>
+                  <gate.util.persistence.PersistenceManager-RRPersistence>
+                    <uriString>$relpath$hashtag/gazetteer/lists.def</uriString>
+                  </gate.util.persistence.PersistenceManager-RRPersistence>
+                </entry>
+              </localMap>
             </initParams>
             <features class="gate.util.persistence.MapPersistence">
               <mapType>gate.util.SimpleFeatureMapImpl</mapType>

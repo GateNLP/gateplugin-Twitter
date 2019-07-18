@@ -84,10 +84,6 @@
                   <boolean>true</boolean>
                 </entry>
                 <entry>
-                  <string>inputASName</string>
-                  <string>Original markups</string>
-                </entry>
-                <entry>
                   <string>annotationTypes</string>
                   <gate.util.persistence.CollectionPersistence>
                     <localList>
@@ -98,8 +94,12 @@
                       <string>hashtags=Hashtag</string>
                       <string>user_mentions=UserMention</string>
                     </localList>
-                    <collectionType>java.util.Arrays$ArrayList</collectionType>
+                    <collectionType>java.util.ArrayList</collectionType>
                   </gate.util.persistence.CollectionPersistence>
+                </entry>
+                <entry>
+                  <string>inputASName</string>
+                  <string>Original markups</string>
                 </entry>
               </localMap>
             </runtimeParams>
@@ -124,11 +124,11 @@
               <mapType>gate.util.SimpleFeatureMapImpl</mapType>
               <localMap>
                 <entry>
-                  <string>annotationType</string>
+                  <string>annotationSetName</string>
                   <string></string>
                 </entry>
                 <entry>
-                  <string>annotationSetName</string>
+                  <string>annotationType</string>
                   <string></string>
                 </entry>
               </localMap>
@@ -211,6 +211,32 @@
                   </gate.util.persistence.PersistenceManager-RRPersistence>
                 </entry>
               </localMap>
+            </initParams>
+            <features class="gate.util.persistence.MapPersistence">
+              <mapType>gate.util.SimpleFeatureMapImpl</mapType>
+              <localMap/>
+            </features>
+          </pr>
+        </gate.util.persistence.AnalyserRunningStrategyPersistence>
+        <gate.util.persistence.AnalyserRunningStrategyPersistence>
+          <runMode>4</runMode>
+          <featureName>lang</featureName>
+          <featureValue>english</featureValue>
+          <pr class="gate.util.persistence.LanguageAnalyserPersistence">
+            <runtimeParams class="gate.util.persistence.MapPersistence">
+              <mapType>gate.util.SimpleFeatureMapImpl</mapType>
+              <localMap>
+                <entry>
+                  <string>annotationSetName</string>
+                  <string>Output</string>
+                </entry>
+              </localMap>
+            </runtimeParams>
+            <resourceType>gate.creole.gazetteer.DefaultGazetteer</resourceType>
+            <resourceName>ANNIE Gazetteer</resourceName>
+            <initParams class="gate.util.persistence.MapPersistence">
+              <mapType>gate.util.SimpleFeatureMapImpl</mapType>
+              <localMap/>
             </initParams>
             <features class="gate.util.persistence.MapPersistence">
               <mapType>gate.util.SimpleFeatureMapImpl</mapType>
@@ -322,61 +348,6 @@
                   </gate.util.persistence.PersistenceManager-RRPersistence>
                 </entry>
               </localMap>
-            </initParams>
-            <features class="gate.util.persistence.MapPersistence">
-              <mapType>gate.util.SimpleFeatureMapImpl</mapType>
-              <localMap/>
-            </features>
-          </pr>
-        </gate.util.persistence.AnalyserRunningStrategyPersistence>
-        <gate.util.persistence.AnalyserRunningStrategyPersistence>
-          <runMode>4</runMode>
-          <featureName>lang</featureName>
-          <featureValue>english</featureValue>
-          <pr class="gate.util.persistence.LanguageAnalyserPersistence">
-            <runtimeParams class="gate.util.persistence.MapPersistence">
-              <mapType>gate.util.SimpleFeatureMapImpl</mapType>
-              <localMap>
-                <entry>
-                  <string>inputFeatureNames</string>
-                  <gate.util.persistence.CollectionPersistence>
-                    <localList>
-                      <string>Token.string</string>
-                    </localList>
-                    <collectionType>java.util.ArrayList</collectionType>
-                  </gate.util.persistence.CollectionPersistence>
-                </entry>
-                <entry>
-                  <string>gazetteerInst</string>
-                  <gate.util.persistence.LanguageAnalyserPersistence>
-                    <runtimeParams class="gate.util.persistence.MapPersistence">
-                      <mapType>gate.util.SimpleFeatureMapImpl</mapType>
-                      <localMap>
-                        <entry>
-                          <string>annotationSetName</string>
-                          <string>Output</string>
-                        </entry>
-                      </localMap>
-                    </runtimeParams>
-                    <resourceType>gate.creole.gazetteer.DefaultGazetteer</resourceType>
-                    <resourceName>ANNIE Gazetteer</resourceName>
-                    <initParams class="gate.util.persistence.MapPersistence">
-                      <mapType>gate.util.SimpleFeatureMapImpl</mapType>
-                      <localMap/>
-                    </initParams>
-                    <features class="gate.util.persistence.MapPersistence">
-                      <mapType>gate.util.SimpleFeatureMapImpl</mapType>
-                      <localMap/>
-                    </features>
-                  </gate.util.persistence.LanguageAnalyserPersistence>
-                </entry>
-              </localMap>
-            </runtimeParams>
-            <resourceType>gate.creole.gazetteer.FlexibleGazetteer</resourceType>
-            <resourceName>ANNIE flexible gazetteer</resourceName>
-            <initParams class="gate.util.persistence.MapPersistence">
-              <mapType>gate.util.SimpleFeatureMapImpl</mapType>
-              <localMap/>
             </initParams>
             <features class="gate.util.persistence.MapPersistence">
               <mapType>gate.util.SimpleFeatureMapImpl</mapType>
