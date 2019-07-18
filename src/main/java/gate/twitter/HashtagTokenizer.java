@@ -316,6 +316,8 @@ public class HashtagTokenizer extends AbstractLanguageAnalyser {
             }
           }
 
+          StringBuilder normalizedHashtag = new StringBuilder();
+          
           for(Annotation a : fewestTokens.get(prefered)) {
             // for each new token...
 
@@ -326,6 +328,12 @@ public class HashtagTokenizer extends AbstractLanguageAnalyser {
 
             // get the actual text
             String string = stringFor(document, a);
+            
+            if (normalizedHashtag.length() > 0) {
+            	normalizedHashtag.append("\u200A");
+          	}
+          
+            normalizedHashtag.append(string.toLowerCase());
 
             // work out what kind of token it is and if it is a word
             // what its orthography is
@@ -352,19 +360,33 @@ public class HashtagTokenizer extends AbstractLanguageAnalyser {
               outputAS.add(startOffset, endOffset, "HashtagToken", features);
             }
           }
-        } else if(debug) {
-          System.err.println(stringFor(document, hashtag));
           
-          AnnotationSet tokens = inputAS.get("Token").getContained(
+          hashtag.getFeatures().put("normalized", normalizedHashtag.insert(0, "#").toString());
+        } else {
+          //System.err.println(stringFor(document, hashtag));
+          
+          StringBuilder normalizedHashtag = new StringBuilder();
+          List<Annotation> tokens = gate.Utils.inDocumentOrder(inputAS.get("Token").getContained(
             hashtag.getStartNode().getOffset()+1,
-            hashtag.getEndNode().getOffset());
+            hashtag.getEndNode().getOffset()));
           
           for (Annotation token : tokens) {
+        	  String string = stringFor(document, token);
+              
+              if (normalizedHashtag.length() > 0) {
+              	normalizedHashtag.append("\u200A");
+            	}
             
-            features = Factory.newFeatureMap();
-            features.putAll(token.getFeatures());
-            outputAS.add(token.getStartNode().getOffset(), token.getEndNode().getOffset(), "HashtagToken", features);
+              normalizedHashtag.append(string.toLowerCase());
+
+            if (debug) {
+              features = Factory.newFeatureMap();
+              features.putAll(token.getFeatures());
+              outputAS.add(token.getStartNode().getOffset(), token.getEndNode().getOffset(), "HashtagToken", features);
+            }
           }
+          
+          hashtag.getFeatures().put("normalized",normalizedHashtag.insert(0, "#").toString());
         }
 
         fireProgressChanged(count++ * 100 / hashtags.size());
