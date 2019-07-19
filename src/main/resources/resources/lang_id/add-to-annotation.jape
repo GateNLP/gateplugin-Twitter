@@ -1,0 +1,14 @@
+Phase:AddToAnnotation
+Input: Tweet
+Options: control=once
+
+Rule:AddToAnnotation
+(
+	{Tweet}
+):tweet
+-->
+:tweet {
+	if (doc.getFeatures().containsKey("lang")) {
+		tweetAnnots.iterator().next().getFeatures().put("lang",doc.getFeatures().get("lang"));
+	}
+}
