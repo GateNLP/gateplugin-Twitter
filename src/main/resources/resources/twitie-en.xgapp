@@ -90,6 +90,7 @@
                       <string>media=URL</string>
                       <string>hashtags=Hashtag</string>
                       <string>user_mentions=UserMention</string>
+                      <string>symbols=Symbol</string>
                     </localList>
                     <collectionType>java.util.Arrays$ArrayList</collectionType>
                   </gate.util.persistence.CollectionPersistence>

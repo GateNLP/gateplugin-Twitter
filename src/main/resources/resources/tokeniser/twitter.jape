@@ -1,5 +1,5 @@
 Phase: TwitterTokens
-Input: Token SpaceToken Lookup URL Hashtag UserMention
+Input: Token SpaceToken Lookup URL Hashtag UserMention Symbol
 Options: control = appelt
 
 
@@ -17,6 +17,27 @@ Priority:1000
 	features.put("string", gate.Utils.cleanStringFor(doc, matchAnnots));
 	features.put("length", (int)(matchAnnots.lastNode().getOffset() - matchAnnots.firstNode().getOffset()));
 
+}
+
+Rule:JSONSymbol
+Priority:1000
+(
+  {Symbol}
+):match
+-->
+:match {
+  Annotation symbol = matchAnnots.iterator().next();
+  AnnotationSet tokens = gate.Utils.getContainedAnnotations(inputAS, matchAnnots, "Token");
+
+   FeatureMap newtok = Factory.newFeatureMap();
+   newtok.put("rule", "JSONSymbol");
+   newtok.put("category", "SYM");
+   newtok.put("kind", "word");
+   newtok.put("length", (int)(matchAnnots.lastNode().getOffset() - matchAnnots.firstNode().getOffset()));
+   newtok.put("string", gate.Utils.cleanStringFor(doc, matchAnnots));
+   gate.Utils.addAnn(outputAS,matchAnnots,"Token",newtok);
+
+   inputAS.removeAll(tokens);
 }
 
 // Make use of existing @mentions
@@ -74,6 +95,34 @@ Priority:1000
    gate.Utils.addAnn(outputAS,matchAnnots,"Token",newf);
 
    inputAS.removeAll(tokens);
+}
+
+Rule:Symbol
+(
+	{Token.string == "$"}
+	{Token.kind == "word", Token.length <= 6}
+	(
+		({Token.string == "."}|{Token.string == "_"})
+		{Token.kind == "word", Token.length <= 2}
+	)?
+):match
+-->
+:match {
+   AnnotationSet tokens = gate.Utils.getContainedAnnotations(inputAS, matchAnnots, "Token");
+
+   FeatureMap newtok = Factory.newFeatureMap();
+   newtok.put("rule", "Symbol");
+   newtok.put("category", "SYM");
+   newtok.put("kind", "word");
+   newtok.put("length", (int)(matchAnnots.lastNode().getOffset() - matchAnnots.firstNode().getOffset()));
+   newtok.put("string", gate.Utils.cleanStringFor(doc, matchAnnots));
+   gate.Utils.addAnn(outputAS,matchAnnots,"Token",newtok);
+
+   inputAS.removeAll(tokens);
+
+   FeatureMap symbol = Factory.newFeatureMap();
+   symbol.put("text", gate.Utils.cleanStringFor(doc, matchAnnots).substring(1));
+   gate.Utils.addAnn(outputAS,matchAnnots,"Symbol",symbol);
 }
 
 
