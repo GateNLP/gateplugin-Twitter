@@ -18,11 +18,6 @@
       </gate.creole.Plugin-Maven>
       <gate.creole.Plugin-Maven>
         <group>uk.ac.gate.plugins</group>
-        <artifact>format-json</artifact>
-        <version>8.6</version>
-      </gate.creole.Plugin-Maven>
-      <gate.creole.Plugin-Maven>
-        <group>uk.ac.gate.plugins</group>
         <artifact>stanford-corenlp</artifact>
         <version>8.5.1</version>
       </gate.creole.Plugin-Maven>
