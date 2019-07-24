@@ -361,7 +361,7 @@ public class HashtagTokenizer extends AbstractLanguageAnalyser {
             }
           }
           
-          hashtag.getFeatures().put("normalized", normalizedHashtag.insert(0, "#").toString());
+          hashtag.getFeatures().put("tokenized", normalizedHashtag.insert(0, "#").toString());
         } else {
           //System.err.println(stringFor(document, hashtag));
           
@@ -386,7 +386,7 @@ public class HashtagTokenizer extends AbstractLanguageAnalyser {
             }
           }
           
-          hashtag.getFeatures().put("normalized",normalizedHashtag.insert(0, "#").toString());
+          hashtag.getFeatures().put("tokenized",normalizedHashtag.insert(0, "#").toString());
         }
 
         fireProgressChanged(count++ * 100 / hashtags.size());
