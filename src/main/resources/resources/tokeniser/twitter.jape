@@ -324,6 +324,9 @@ Rule: URL
    newf.put("length", (int) end - start);
    String string = gate.Utils.cleanStringFor(doc, matchAnnots);
    newf.put("string", string);
+   
+   FeatureMap newuf = Factory.newFeatureMap();
+   newuf.put("url",string);
 
    {
      AnnotationSet tokens = gate.Utils.getContainedAnnotations(inputAS, matchAnnots, "Token");
@@ -333,7 +336,7 @@ Rule: URL
   
    try {
      outputAS.add(start, end, "Token", newf);
-     outputAS.add(start, end, "URL", newf);
+     outputAS.add(start, end, "URL", newuf);
    }
    catch (InvalidOffsetException e) {
      e.printStackTrace();
