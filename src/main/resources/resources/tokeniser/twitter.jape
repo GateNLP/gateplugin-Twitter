@@ -310,7 +310,7 @@ Rule: UserID
 
 Rule: URL
 ((URL_START)
- ({Token.string !=~ "[\"”\']"})[1,20]
+ ({Token.string !=~ "[\"”\']"})+
 ): match
 -->
 :match {
