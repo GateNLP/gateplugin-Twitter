@@ -33,7 +33,7 @@ Priority:1000
    newtok.put("rule", "JSONSymbol");
    newtok.put("category", "SYM");
    newtok.put("kind", "word");
-   newtok.put("length", (int)(matchAnnots.lastNode().getOffset() - matchAnnots.firstNode().getOffset()));
+   newtok.put("length", Long.toString(matchAnnots.lastNode().getOffset() - matchAnnots.firstNode().getOffset()));
    newtok.put("string", gate.Utils.cleanStringFor(doc, matchAnnots));
    gate.Utils.addAnn(outputAS,matchAnnots,"Token",newtok);
 
@@ -68,7 +68,7 @@ Priority:1000
    newtok.put("rule", "JSONUserMention");
    newtok.put("category", "USR");
    newtok.put("kind", "word");
-   newtok.put("length", (int)(matchAnnots.lastNode().getOffset() - matchAnnots.firstNode().getOffset()));
+   newtok.put("length", Long.toString(matchAnnots.lastNode().getOffset() - matchAnnots.firstNode().getOffset()));
    newtok.put("string", gate.Utils.cleanStringFor(doc, matchAnnots));
    gate.Utils.addAnn(outputAS,matchAnnots,"Token",newtok);
 
@@ -87,7 +87,7 @@ Priority:1000
    newf.put("rule", "JsonURLandMedia");
    newf.put("category", "URL");
    newf.put("kind", "URL");
-   newf.put("length", (int)(matchAnnots.lastNode().getOffset()-matchAnnots.firstNode().getOffset()));
+   newf.put("length", Long.toString(matchAnnots.lastNode().getOffset()-matchAnnots.firstNode().getOffset()));
    newf.put("string", gate.Utils.cleanStringFor(doc, matchAnnots));
 
    AnnotationSet tokens = gate.Utils.getContainedAnnotations(inputAS, matchAnnots, "Token");
@@ -114,7 +114,7 @@ Rule:Symbol
    newtok.put("rule", "Symbol");
    newtok.put("category", "SYM");
    newtok.put("kind", "word");
-   newtok.put("length", (int)(matchAnnots.lastNode().getOffset() - matchAnnots.firstNode().getOffset()));
+   newtok.put("length", Long.toString(matchAnnots.lastNode().getOffset() - matchAnnots.firstNode().getOffset()));
    newtok.put("string", gate.Utils.cleanStringFor(doc, matchAnnots));
    gate.Utils.addAnn(outputAS,matchAnnots,"Token",newtok);
 
@@ -189,7 +189,7 @@ Rule: Recombine
    FeatureMap tok = Factory.newFeatureMap();
    tok.put("rule", "Recombine");
    tok.put("kind", "word");
-   tok.put("length", (int) end - start);
+   tok.put("length", Long.toString(end - start));
    String string = gate.Utils.cleanStringFor(doc, matchAnnots);
    tok.put("string", string);
    tok.put("orth", "mixed");
@@ -232,7 +232,7 @@ Priority: 100
    tok.put("rule", "RecombineEmoticon");
    tok.put("kind", "punctuation");
    tok.put("category", "UH");
-   tok.put("length", (int) end - start);
+   tok.put("length", Long.toString(end - start));
    tok.put("origString", gate.Utils.cleanStringFor(doc, matchAnnots));
    tok.put("string", matchAnnots.iterator().next().getFeatures().get("normalized"));
    tok.put("orth", "mixed");
@@ -298,7 +298,7 @@ Rule: UserID
    newtok.put("rule", "UserID");
    newtok.put("category", "USR");
    newtok.put("kind", "word");
-   newtok.put("length", (int)(matchAnnots.lastNode().getOffset() - matchAnnots.firstNode().getOffset()));
+   newtok.put("length", Long.toString(matchAnnots.lastNode().getOffset() - matchAnnots.firstNode().getOffset()));
    newtok.put("string", gate.Utils.cleanStringFor(doc, matchAnnots));
    gate.Utils.addAnn(outputAS,matchAnnots,"Token",newtok);
 
@@ -321,7 +321,7 @@ Rule: URL
    newf.put("rule", "URL");
    newf.put("category", "URL");
    newf.put("kind", "URL");
-   newf.put("length", (int) end - start);
+   newf.put("length", Long.toString(end - start));
    String string = gate.Utils.cleanStringFor(doc, matchAnnots);
    newf.put("string", string);
    
@@ -358,7 +358,7 @@ Rule: Separator
    newf.put("rule", "Separator");
    newf.put("temp_category", "SYM");
    newf.put("kind", "separator");
-   newf.put("length", (int) end - start);
+   newf.put("length", Long.toString(end - start));
    String string = gate.Utils.cleanStringFor(doc, matchAnnots);
    newf.put("string", string);
 
