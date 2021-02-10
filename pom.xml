@@ -8,7 +8,7 @@
 		<groupId>uk.ac.gate</groupId>
 		<artifactId>gate-plugin-base</artifactId>
 		<!-- this should be the version of GATE you wish to build against -->
-		<version>8.6</version>
+		<version>9.0</version>
 		<relativePath></relativePath>
 	</parent>
 
@@ -18,7 +18,7 @@
 	<!-- this is the description of this plugin -->
 	<groupId>uk.ac.gate.plugins</groupId>
 	<artifactId>twitter</artifactId>
-	<version>9.1-SNAPSHOT</version>
+	<version>9.1</version>
 
 	<licenses>
 		<license>
@@ -61,7 +61,7 @@
 		<dependency>
 			<groupId>com.opencsv</groupId>
 			<artifactId>opencsv</artifactId>
-			<version>3.8</version>
+			<version>3.10</version>
 		</dependency>
 		
 		<dependency>
