@@ -10,12 +10,12 @@
       <gate.creole.Plugin-Maven>
         <group>uk.ac.gate.plugins</group>
         <artifact>twitter</artifact>
-        <version>9.1-SNAPSHOT</version>
+        <version>9.1</version>
       </gate.creole.Plugin-Maven>
       <gate.creole.Plugin-Maven>
         <group>uk.ac.gate.plugins</group>
         <artifact>format-twitter</artifact>
-        <version>8.8-SNAPSHOT</version>
+        <version>8.8</version>
       </gate.creole.Plugin-Maven>
       <gate.creole.Plugin-Maven>
         <group>uk.ac.gate.plugins</group>

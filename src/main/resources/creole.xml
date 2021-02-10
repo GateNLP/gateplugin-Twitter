@@ -1,5 +1,5 @@
 <?xml version="1.0"?>  
 <CREOLE-DIRECTORY>  
 	<REQUIRES GROUP="uk.ac.gate.plugins" ARTIFACT="annie" VERSION="8.7-SNAPSHOT"/>  
-	<REQUIRES GROUP="uk.ac.gate.plugins" ARTIFACT="format-twitter" VERSION="8.8-SNAPSHOT"/>
+	<REQUIRES GROUP="uk.ac.gate.plugins" ARTIFACT="format-twitter" VERSION="8.8"/>
 </CREOLE-DIRECTORY>
