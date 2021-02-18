@@ -196,7 +196,7 @@
               <localMap>
                 <entry>
                   <string>gazetteerFeatureSeparator</string>
-                  <string />
+                  <string>\t</string>
                 </entry>
                 <entry>
                   <string>listsURL</string>
