@@ -29,6 +29,7 @@ import gate.util.Files;
 import gate.util.GateRuntimeException;
 
 import com.opencsv.CSVReader;
+import com.opencsv.exceptions.CsvValidationException;
 
 import pt.tumba.spell.*;
 
@@ -110,7 +111,9 @@ public class Normaliser extends AbstractLanguageAnalyser {
           orthmappings.put(line[0], line[1]);
         } while((line = csvReader.readNext()) != null);
       }
-    }
+    } catch (CsvValidationException e) {
+		throw new IOException("Problem reading orth mapping CSV file", e);
+	}
   }
 
   protected InputStream openPossiblyGzip(URL url) throws IOException {
