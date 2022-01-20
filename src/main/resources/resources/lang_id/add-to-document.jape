@@ -1,0 +1,12 @@
+Phase:AddToDocument
+Input: Tweet
+Options: control=once
+
+Rule:AddToAnnotation
+(
+	{Tweet}
+):tweet
+-->
+:tweet {
+	doc.getFeatures().put("lang", tweetAnnots.iterator().next().getFeatures().get("lang"));
+}
