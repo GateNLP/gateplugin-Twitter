@@ -307,10 +307,13 @@ Rule: UserID
 
 
 // TODO: restrict to syntactically valid URLs?
-
+// MAG 20230110: Don't allow the URL to end in a single
+//   punctuation mark, even valid ones, as this tends to
+//   grab the full stop at the end of the Sentence etc.
 Rule: URL
 ((URL_START)
- ({Token.string !=~ "[\"”\']"})+
+ ({Token.string !=~ "[\"”\']"})*
+ {Token.string !=~ "[\"”\',;:.]"}
 ): match
 -->
 :match {
